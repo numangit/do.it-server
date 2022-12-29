@@ -23,7 +23,7 @@ async function run() {
             let query = {};
             if (req.query.email) {
                 query = {
-                    email: req.query.email
+                    userEmail: req.query.email
                 }
             }
             const cursor = tasksCollection.find(query);
