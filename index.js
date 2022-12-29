@@ -32,7 +32,7 @@ async function run() {
         });
 
         //api to get specific task by id
-        app.get('/tasks/:id', async (req, res) => {
+        app.get('/myTask/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
             const task = await tasksCollection.findOne(query);
@@ -71,17 +71,18 @@ async function run() {
         //api to update the task
         app.patch('/myTasks/:id', async (req, res) => {
             const id = req.params.id;
+            const taskName = req.body.taskName
             const taskDescription = req.body.taskDescription
             const query = { _id: ObjectId(id) }
             const updatedDoc = {
                 $set: {
+                    taskName: taskName,
                     taskDescription: taskDescription
                 }
             }
             const result = await tasksCollection.updateOne(query, updatedDoc);
             res.send(result);
         })
-
     }
     finally {
     }
