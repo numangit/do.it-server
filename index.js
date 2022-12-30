@@ -26,7 +26,7 @@ async function run() {
                     userEmail: req.query.email
                 }
             }
-            const cursor = tasksCollection.find(query);
+            const cursor = tasksCollection.find(query).sort({ postedDate: -1 });
             const tasks = await cursor.toArray();
             res.send(tasks);
         });
@@ -65,6 +65,20 @@ async function run() {
                 }
             }
             const result = await tasksCollection.updateOne(query, updatedDoc, options);
+            res.send(result);
+        })
+
+        //api to add comment/note to a task
+        app.patch('/myTasks/note/:id', async (req, res) => {
+            const id = req.params.id;
+            const taskNote = req.body.taskNote;
+            const query = { _id: ObjectId(id) }
+            const updatedDoc = {
+                $set: {
+                    taskNote: taskNote
+                }
+            }
+            const result = await tasksCollection.updateOne(query, updatedDoc);
             res.send(result);
         })
 
